@@ -1,0 +1,72 @@
+<form [formGroup]="shipForm">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" class="form-control" formControlName="name" required>
+    </div>
+    <div class="form-group">
+      <label for="model">Model:</label>
+      <input type="text" id="model" class="form-control" formControlName="model" required>
+    </div>
+    <div class="form-group">
+      <label for="starship_class">Starship Class:</label>
+      <input type="text" id="starship_class" class="form-control" formControlName="starship_class" required>
+    </div>
+    <div class="form-group">
+      <label for="manufacturer">Manufacturer:</label>
+      <input type="text" id="manufacturer" class="form-control" formControlName="manufacturer" required>
+    </div>
+    <div class="form-group">
+      <label for="cost_in_credits">Cost in Credits:</label>
+      <input
+        type="text"
+        id="cost_in_credits"
+        class="form-control"
+        formControlName="cost_in_credits"
+        required
+      >
+      <div *ngIf="shipForm.get('cost_in_credits')?.hasError('invalidCurrencyFormat')" class="text-danger">
+        Invalid currency format. Use [$ xxx,xxx.xx] format.
+      </div>
+    </div>
+        <div class="form-group">
+      <label for="length">Length (meters):</label>
+      <input type="text" id="length" class="form-control" formControlName="length" required>
+    </div>
+    <div class="form-group">
+      <label for="crew">Crew:</label>
+      <input type="text" id="crew" class="form-control" formControlName="crew" required>
+    </div>
+    <div class="form-group">
+      <label for="passengers">Passengers:</label>
+      <input type="number" id="passengers" class="form-control" formControlName="passengers" required>
+    </div>
+    <div class="form-group">
+      <label for="max_atmosphering_speed">Max Atmosphering Speed:</label>
+      <input type="text" id="max_atmosphering_speed" class="form-control" formControlName="max_atmosphering_speed" required>
+    </div>
+    <div class="form-group">
+      <label for="hyperdrive_rating">Hyperdrive Rating:</label>
+      <input type="text" id="hyperdrive_rating" class="form-control" formControlName="hyperdrive_rating" required>
+    </div>
+    <div class="form-group">
+      <label for="MGLT">MGLT:</label>
+      <input type="number" id="MGLT" class="form-control" formControlName="MGLT" required>
+    </div>
+    <div class="form-group">
+      <label for="cargo_capacity">Cargo Capacity (kg):</label>
+      <input type="number" id="cargo_capacity" class="form-control" formControlName="cargo_capacity" required>
+    </div>
+    <div class="form-group">
+      <label for="consumables">Consumables:</label>
+      <input type="text" id="consumables" class="form-control" formControlName="consumables" required>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="saveShip()"
+      [disabled]="shipForm.invalid" 
+    >
+      Save
+    </button>  
+</form>
+  
