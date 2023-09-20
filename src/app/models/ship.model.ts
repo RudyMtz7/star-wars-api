@@ -1,6 +1,7 @@
 // src/app/ship.model.ts
 export class Ship {
     constructor(
+        public id: number,
         public name: string,
         public model: string,
         public manufacturer: string,

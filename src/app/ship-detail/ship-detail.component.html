@@ -23,10 +23,8 @@
         class="form-control"
         formControlName="cost_in_credits"
         required
+        [ngModel]="formatMoney(shipForm.get('cost_in_credits')!.value)"
       >
-      <div *ngIf="shipForm.get('cost_in_credits')?.hasError('invalidCurrencyFormat')" class="text-danger">
-        Invalid currency format. Use [$ xxx,xxx.xx] format.
-      </div>
     </div>
         <div class="form-group">
       <label for="length">Length (meters):</label>
@@ -63,7 +61,7 @@
     <button
       type="button"
       class="btn btn-primary"
-      (click)="saveShip()"
+      (click)="showConfirmationModal()"
       [disabled]="shipForm.invalid" 
     >
       Save

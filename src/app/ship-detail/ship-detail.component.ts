@@ -1,6 +1,11 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Ship } from '../models/ship.model';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+
+import { ShipService } from '../services/ship/ship.service';
+import { MoneyFormatPipe } from '../util/money-format.pipe';
+
 
 @Component({
   selector: 'app-ship-detail',
@@ -12,16 +17,17 @@ export class ShipDetailComponent {
  
   shipForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+      private fb: FormBuilder,
+      private shipService: ShipService,
+      private moneyFormatPipe: MoneyFormatPipe
+      ) {
     this.shipForm = this.fb.group({
       name: ['', Validators.required],
       model: ['', Validators.required],
       starship_class: ['', Validators.required],
       manufacturer: ['', Validators.required],
-      cost_in_credits: [
-        '',
-        [Validators.required, this.validateCurrency] // Custom validator for currency format
-      ],      
+      cost_in_credits: ['', [Validators.required]],      
       length: ['', [Validators.required]],
       crew: ['', [Validators.required]],
       passengers: ['', [Validators.required]],
@@ -33,36 +39,18 @@ export class ShipDetailComponent {
     });
   }
 
-  // Custom validator for currency format
-  validateCurrency(control: AbstractControl): { [key: string]: any } | null {
-    const currencyPattern = /^\$\s\d{1,3}(,\d{3})*(\.\d{2})?$/;
-    if (!currencyPattern.test(control.value)) {
-      return { invalidCurrencyFormat: true };
-    }
-    return null;
-  }
-
-  // Helper method to format currency for display
-  formatCurrency(value: number | string): string {
-    if (typeof value === 'string') {
-      value = parseFloat(value);
-    }
-    return `$ ${value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-  }
-  
+  formatMoney(value: string): string {
+    return this.moneyFormatPipe.transform(value);
+  }  
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Replace "unknown" with 0 for cost_in_credits
-    const costInCredits = this.ship.cost_in_credits === 'unknown' ? '0' : this.ship.cost_in_credits;
-    if (changes['ship'] && this.ship) {
-      console.log(this.ship);
-      
+    if (changes['ship'] && this.ship) {      
       this.shipForm.patchValue({
         name: this.ship.name || '',
         model: this.ship.model || '',
         starship_class: this.ship.starship_class || '',
         manufacturer: this.ship.manufacturer || '',
-        cost_in_credits: this.formatCurrency(costInCredits) || '',
+        cost_in_credits: this.ship.cost_in_credits || '',
         length: this.ship.length || '',
         crew: this.ship.crew || '',
         passengers: this.ship.passengers || '',
@@ -71,16 +59,31 @@ export class ShipDetailComponent {
         MGLT: this.ship.MGLT || '',
         cargo_capacity: this.ship.cargo_capacity || '',
         consumables: this.ship.consumables || '',
-        // Update form controls for other ship properties as needed
       });
     }
+  }
+  
+  showConfirmationModal() {
+    Swal.fire({
+      title: 'Confirm Submission',
+      text: 'Are you sure you want to submit this form?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, submit!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User clicked "Yes, submit!" - Submit the form here
+        this.saveShip();
+      }
+    });
   }
   
   
   // Inside ShipDetailComponent
   saveShip(): void {
-    const updatedShipData = this.shipForm.value;
-    console.log('Updated Ship Data:', updatedShipData);
+    const newShip = this.shipForm.value;
+    this.shipService.createOrUpdateShip(newShip);
   }
 
 }

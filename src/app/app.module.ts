@@ -8,13 +8,15 @@ import { MovieListComponent } from './movie-list/movie-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ShipListComponent } from './ship-list/ship-list.component';
 import { ShipDetailComponent } from './ship-detail/ship-detail.component';
+import { MoneyFormatPipe } from './util/money-format.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieListComponent,
     ShipListComponent,
-    ShipDetailComponent
+    ShipDetailComponent,
+    MoneyFormatPipe
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,7 @@ import { ShipDetailComponent } from './ship-detail/ship-detail.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [MoneyFormatPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
