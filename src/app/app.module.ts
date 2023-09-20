@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ShipListComponent } from './ship-list/ship-list.component';
 import { ShipDetailComponent } from './ship-detail/ship-detail.component';
 import { MoneyFormatPipe } from './util/money-format.pipe';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MoneyFormatPipe } from './util/money-format.pipe';
     MovieListComponent,
     ShipListComponent,
     ShipDetailComponent,
-    MoneyFormatPipe
+    MoneyFormatPipe,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
