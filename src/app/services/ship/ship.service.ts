@@ -17,6 +17,13 @@ export class ShipService {
   getStarshipsByEpisode(episodeId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}?film=${episodeId}`);
   }
+
+  // Fetch a starship by ID
+  getStarshipById(id: string): Observable<any> {
+    const url = id;
+    return this.http.get(url);
+  }
+
    // Create a new ship or update an existing one in localStorage
    createOrUpdateShip(ship: Ship): void {
     const ships = this.getAllShips();

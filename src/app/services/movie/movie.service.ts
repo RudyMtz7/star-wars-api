@@ -14,4 +14,10 @@ export class MovieService {
   getMovies(): Observable<Movie[]> {
     return this.http.get<Movie[]>(this.apiUrl);
   }
+
+  // Fetch a specific movie by episode ID
+  getMovieByEpisodeId(episodeId: number): Observable<any> {
+    const url = `${this.apiUrl}${episodeId}/`;
+    return this.http.get(url);
+  }
 }
