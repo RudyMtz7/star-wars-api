@@ -7,3 +7,8 @@ Aplicación simple en Angular utilizando el API de Star Wars.
 - SweetAlert2
 - Karma-Jasmine
 - TypeScript
+## Instrucciones
+```sh
+npm install
+npm start
+```
